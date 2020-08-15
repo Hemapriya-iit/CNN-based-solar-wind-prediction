@@ -1,0 +1,72 @@
+#training images_193_2013#RGB
+images_file1_2013=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2013_images/*.jpg")   ####change location
+images_file_2013=sorted(images_file1_2013)
+images_updated_2013=[]
+i=72
+while i<4380:
+    images_updated1_2013=images_file_2013[(i)-(int(round(duration_2013[i-72]))*12)]
+    images_updated_2013.append(images_updated1_2013)
+    i+=1
+images_train=[]
+for f in images_updated_2013:
+    images_read_2013=cv2.imread(f)
+    
+    images_gray_2013=cv2.cvtColor(images_read_2013, cv2.COLOR_BGR2GRAY)
+    images_read1_2013=cv2.resize(images_gray_2013,(512,512))
+    images_train.append([np.array(images_read1_2013)])
+np.save('/home/hemapriya/hema_data/sw_speed_2013_18/train_data_2013.npy',images_train)
+
+#training images_193_2014#RGB
+images_file1_2014=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2014_images/*.jpg")   ####change location
+images_file_2014=sorted(images_file1_2014)
+images_updated_2014=[]
+i=49
+while i<4380:
+    images_updated1_2014=images_file_2014[(i)-(int(round(duration_2014[i-49]))*12)]
+    images_updated_2014.append(images_updated1_2014)
+    i+=1
+for f in images_updated_2014:
+    images_read_2014=cv2.imread(f)
+    
+    images_gray_2014=cv2.cvtColor(images_read_2014, cv2.COLOR_BGR2GRAY)
+    images_read1_2014=cv2.resize(images_gray_2014,(512,512))
+    images_train.append([np.array(images_read1_2014)])
+#np.save('/home/hemapriya/hema_data/train_data_2014.npy',images_train)
+
+#training_images_2015
+
+#training images_193_2017#RGB
+images_file1_2015=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2015_193_new/*.jpg")   ####change location
+images_file_2015=sorted(images_file1_2015)
+images_updated_2015=[]
+k=49
+while k<4380:
+    images_updated1_2015=images_file_2015[(k)-(int(round(duration_2015[k-49]))*12)]
+    images_updated_2015.append(images_updated1_2015)
+    k+=1
+for f in images_updated_2015:
+    images_read_2015=cv2.imread(f)
+    
+    images_gray_2015=cv2.cvtColor(images_read_2015, cv2.COLOR_BGR2GRAY)
+    images_read1_2015=cv2.resize(images_gray_2015,(512,512))
+    
+    images_train.append([np.array(images_read1_2015)])
+
+#training images_193_2017#RGB
+#training images_193_2017#RGB
+images_file1=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2017_images/*.jpg")   ####change location
+images_file=sorted(images_file1)
+images_updated=[]
+i=49
+while i<4380:
+    images_updated1=images_file[(i)-(int(round(duration[i-49]))*12)]
+    images_updated.append(images_updated1)
+    i+=1
+for f in images_updated:
+    images_read=cv2.imread(f)
+    
+    images_gray=cv2.cvtColor(images_read, cv2.COLOR_BGR2GRAY)
+    images_read1=cv2.resize(images_gray,(512,512))
+
+    images_train.append([np.array(images_read1)])
+np.save('/home/hemapriya/hema_data/sw_speed_2013_18/train_images.npy',images_train)
