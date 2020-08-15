@@ -1,0 +1,89 @@
+train_x=np.load('/home/hemapriya/hema_data/sw_speed_2013_18/train_images.npy')
+data_x = train_x.reshape(train_x.shape[0], 512,512,1)
+print(data_x.shape)
+test_2018=np.load('/home/hemapriya/hema_data/img_2018_new.npy')
+test_x = test_2018.reshape(test_2018.shape[0], 512,512,1)
+test_x_check=test_x[0:4331]
+print(test_x_check.shape)
+from sklearn.model_selection import train_test_split
+train_x,val_x,train_y,val_y=train_test_split(data_x,trainy_speed,test_size=0.2,random_state = 0)
+print(train_y.shape)
+print(data_speed_2018.shape)
+print(val_y.shape)
+print(train_x.shape)
+print(test_x.shape)
+print(val_x.shape)
+
+
+##CNN
+
+
+import tensorflow as tf
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+
+config = ConfigProto()
+config.gpu_options.allow_growth=True
+sess = tf.compat.v1.Session(config=config)
+
+from keras.models import Model
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import convolutional
+from keras.layers import pooling
+from keras.layers import core
+from keras import optimizers
+from keras.layers import Dropout
+from keras.layers import BatchNormalization
+from keras.regularizers import l2
+from keras.models import load_model
+
+#model_3=Sequential()
+model_8 = Sequential()
+model_8.add(convolutional.Convolution2D(32, (9,9),strides=(3, 3), input_shape=(512,512,1)))
+model_8.add(Activation('relu'))
+model_8.add(pooling.MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
+model_8.add(convolutional.Convolution2D(64, (2,2),strides=(2, 2)))
+model_8.add(Activation('relu'))
+model_8.add(pooling.MaxPooling2D(pool_size=(3, 3),strides=(2, 2)))
+model_8.add(convolutional.Convolution2D(128, (2,2),strides=(2, 2)))
+model_8.add(BatchNormalization())
+model_8.add(Activation('relu'))
+model_8.add(pooling.MaxPooling2D(pool_size=(3, 3),strides=(1, 1)))
+model_8.add(Flatten())
+model_8.add(Dense(4096,activation='relu'))
+model_8.add(core.Dropout(.3))
+model_8.add(Dense(1,activation='linear'))
+model_8.compile(optimizer=optimizers.Adam(lr=1e-04), loss='mse',metrics=['mse'])
+print(model_8.summary())
+
+
+
+##training
+
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+history=model_8.fit(train_x,train_y,batch_size=128,epochs=20,validation_data=(val_x,val_y),callbacks=[early_stop])
+
+
+##testing
+
+model_8.save_weights('/home/hemapriya/hema_data/models/train_weights_183l.h5')
+from keras.models import load_model
+model_8.load_weights('/home/hemapriya/hema_data/models/train_weights_183l.h5')
+
+
+y_test1=model_8.predict(test_x_check)
+
+plt.figure(figsize=(25,7))
+plt.ylim(200,800)
+plt.plot((y_test1),label='predicted',linewidth=2.0)
+plt.plot(data_speed_2018,label='actual',linewidth=3.0)
+plt.title('CNN prediction for the year 2018',fontsize=30)
+plt.xlabel('days',fontsize=25,c='white')
+plt.ylabel('windspeed(Km/s)',fontsize=25,c='white')
+plt.legend(fontsize=20)
+plt.tick_params(labelsize=20)
+
+
+plt.grid()
