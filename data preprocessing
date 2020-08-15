@@ -1,0 +1,76 @@
+#datapreprocessing
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import pandas as pd
+import cv2
+import glob
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import os
+#os.environ["CUDA_VISIBLE_DEVICES"]="0" 
+
+#speed values_2013
+
+data_2013=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/2013_sw_speed.csv")  ####change location
+ 
+
+#speedvalues
+data_y_2013=data_2013[72:4380]
+duration_2013=data_y_2013.iloc[:,4].values
+data_speed_2013=data_y_2013.iloc[:,3].values 
+print(data_y_2013.shape)
+
+#speed values_2014
+
+data_2014=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/2014_sw_speed.csv")  ####change location
+ 
+
+#speedvalues
+data_y_2014=data_2014[49:4380]
+duration_2014=data_y_2014.iloc[:,4].values
+data_speed_2014=data_y_2014.iloc[:,3].values 
+
+#speed values_2015
+
+data_2015=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/sw_speed_2015.csv")  ####change location
+ 
+
+#speedvalues
+data_y_2015=data_2015[49:4380]
+duration_2015=data_y_2015.iloc[:,4].values
+data_speed_2015=data_y_2015.iloc[:,3].values 
+
+
+
+#speed values 2017 
+data=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/solar_wind_latest_2017.csv")  ####change location
+ 
+
+#speedvalues
+data_y_2017=data[49:4380]
+duration=data_y_2017.iloc[:,4].values
+data_speed=data_y_2017.iloc[:,3].values 
+
+#speed_values_2018
+data_2018=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/sw_speed_2018.csv")  ####change location
+ 
+
+#speedvalues
+data_y_2018=data_2018[49:4380]
+duration_2018=data_y_2018.iloc[:,4].values
+data_speed_2018=data_y_2018.iloc[:,3].values 
+
+
+
+
+#merging all data
+
+train_y1=data_y_2013.append(data_y_2014)
+train_y2=train_y1.append(data_y_2015)
+train_y3=train_y2.append(data_y_2017)
+#train_y1=train_y_inter.append(data_y_2015)
+
+trainy_speed=train_y3.iloc[:,3].values
+trainy_speed.shape
