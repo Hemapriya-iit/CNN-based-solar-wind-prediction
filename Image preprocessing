@@ -1,5 +1,19 @@
-#training images_193_2013#RGB
-images_file1_2013=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2013_images/*.jpg")   ####change location
+def image_process(data):
+    tmp = np.log10(data+1e-5)
+    min1 = np.min(data)
+
+    scale_min=500/4.0 #Was 500/4.0
+    scale_max=20000/4.0 
+    tmp[np.where(tmp<np.log10(scale_min+min1))] = np.log10(scale_min+min1) 
+    tmp[np.where(tmp>np.log10(scale_max+min1))] = np.log10(scale_max+min1)
+    minimum_new = np.min(tmp)
+    maximum_new = np.max(tmp)
+    tmp = (tmp-minimum_new)*256.0/(maximum_new-minimum_new)
+    return tmp
+
+
+images_file1_2013=glob.glob("/home/hemapriya/ML_SDO/2013/mm_cp/AIA2013*.npz")
+print(len(images_file1_2013))
 images_file_2013=sorted(images_file1_2013)
 images_updated_2013=[]
 i=72
@@ -9,15 +23,13 @@ while i<4380:
     i+=1
 images_train=[]
 for f in images_updated_2013:
-    images_read_2013=cv2.imread(f)
-    
-    images_gray_2013=cv2.cvtColor(images_read_2013, cv2.COLOR_BGR2GRAY)
-    images_read1_2013=cv2.resize(images_gray_2013,(512,512))
-    images_train.append([np.array(images_read1_2013)])
-np.save('/home/hemapriya/hema_data/sw_speed_2013_18/train_data_2013.npy',images_train)
+    data_2013=np.load(f)
+    g=np.array(data_2013['x'])
+    im_2013=image_process(g) 
+    images_train.append(im_2013)
 
-#training images_193_2014#RGB
-images_file1_2014=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2014_images/*.jpg")   ####change location
+images_file1_2014=glob.glob("/home/hemapriya/ML_SDO/2014/mm_cp/AIA2014*.npz")   ####change location
+print(len(images_file1_2014))
 images_file_2014=sorted(images_file1_2014)
 images_updated_2014=[]
 i=49
@@ -26,17 +38,17 @@ while i<4380:
     images_updated_2014.append(images_updated1_2014)
     i+=1
 for f in images_updated_2014:
-    images_read_2014=cv2.imread(f)
-    
-    images_gray_2014=cv2.cvtColor(images_read_2014, cv2.COLOR_BGR2GRAY)
-    images_read1_2014=cv2.resize(images_gray_2014,(512,512))
-    images_train.append([np.array(images_read1_2014)])
-#np.save('/home/hemapriya/hema_data/train_data_2014.npy',images_train)
+    data_2014=np.load(f)
+    g_2014=np.array(data_2014['x'])
+    im_2014=image_process(g_2014) 
+    images_train.append(im_2014)
 
 #training_images_2015
 
-#training images_193_2017#RGB
-images_file1_2015=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2015_193_new/*.jpg")   ####change location
+#2015
+
+images_file1_2015=glob.glob("/home/hemapriya/ML_SDO/2015/mm_cp/AIA2015*.npz")   ####change location
+print(len(images_file1_2015))
 images_file_2015=sorted(images_file1_2015)
 images_updated_2015=[]
 k=49
@@ -45,16 +57,16 @@ while k<4380:
     images_updated_2015.append(images_updated1_2015)
     k+=1
 for f in images_updated_2015:
-    images_read_2015=cv2.imread(f)
+    data_2015=np.load(f)
+    g_2015=np.array(data_2015['x'])
+    im_2015=image_process(g_2015) 
+    images_train.append(im_2015)
     
-    images_gray_2015=cv2.cvtColor(images_read_2015, cv2.COLOR_BGR2GRAY)
-    images_read1_2015=cv2.resize(images_gray_2015,(512,512))
-    
-    images_train.append([np.array(images_read1_2015)])
 
 #training images_193_2017#RGB
 #training images_193_2017#RGB
-images_file1=glob.glob("/home/hemapriya/hema_data/sw_speed_2013_18/2017_images/*.jpg")   ####change location
+#2017
+images_file1=glob.glob("/home/hemapriya/ML_SDO/2017/mm_cp/AIA2017*.npz")   ####change location
 images_file=sorted(images_file1)
 images_updated=[]
 i=49
@@ -63,10 +75,21 @@ while i<4380:
     images_updated.append(images_updated1)
     i+=1
 for f in images_updated:
-    images_read=cv2.imread(f)
-    
-    images_gray=cv2.cvtColor(images_read, cv2.COLOR_BGR2GRAY)
-    images_read1=cv2.resize(images_gray,(512,512))
+    data_2017=np.load(f)
+    g_2017=np.array(data_2017['x'])
+    im_2017=image_process(g_2017) 
+    images_train.append(im_2017)
+np.save('/DATA/hemapriya/data/train_images_2021_logn.npy',images_train)
 
-    images_train.append([np.array(images_read1)])
-np.save('/home/hemapriya/hema_data/sw_speed_2013_18/train_images.npy',images_train)
+#2018
+images_file1_2018=glob.glob("/home/hemapriya/ML_SDO/2018/mm_cp/AIA2018*.npz")   ####change location
+images_file_2018=sorted(images_file1_2018)
+
+
+images_train_2018=[]
+for f in images_file_2018:
+    data_2018=np.load(f)
+    g_2018=np.array(data_2018['x'])
+    im_2018=image_process(g_2018) 
+    images_train_2018.append(im_2018)
+np.save('/DATA/hemapriya/data/img_2018_logn.npy',images_train_2018)
