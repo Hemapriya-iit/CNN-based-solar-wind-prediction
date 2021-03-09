@@ -14,7 +14,42 @@ import os
 #speed values_2013
 
 data_2013=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/2013_sw_speed.csv")  ####change location
+data_2014=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/2014_sw_speed.csv")  ####change location
+ data_2015=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/sw_speed_2015.csv")  ####change location
+ data_2018=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/sw_speed_2018.csv")  ####change location
+ data=pd.read_csv("/home/hemapriya/hema_data/sw_speed_2013_18/solar_wind_latest_2017.csv")  ####change location
  
+#to check lcount=12 in each day
+import pandas as pd
+data=pd.read_csv("D:\\HEMA_IIT\\paper_1\\sw_speed_2018_or.csv")
+
+i=1
+miss=0
+miss_v=[]
+miss_h=[]
+while i <366:
+    l=data[data['day']==i]
+    h=len(l)
+    if h !=12:
+        print(i)
+        miss=miss+1
+        miss_v.append(i)
+        miss_h.append(h)
+    i+=1
+print(miss) 
+
+#to check if anyof the speed has negative values
+
+##removing the negative and zero values
+import pandas as pd
+data=pd.read_csv("D:\\HEMA_IIT\\paper_1\\sw_speed_2017_or.csv")
+
+incorrect1=data[data['speed']<=0]
+incorrect=data.index[data['speed']<=0]
+print(incorrect)
+print(len(incorrect1))
+#data_y2=data_y1.drop(np.array(incorrect))
+
 
 #speedvalues
 data_y_2013=data_2013[72:4380]
