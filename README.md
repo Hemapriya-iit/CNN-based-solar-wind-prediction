@@ -7,4 +7,6 @@ Data are preprocessed in datapreprocessing and image preprocessing sections
 
 one can simply load weights directly after defining CNN architecture, and can test after doing image preprocessing.
 
+Datasets havenot been attached here. Image Datasets are downloaded from https://purl.stanford.edu/jc488jb7715
+
 
